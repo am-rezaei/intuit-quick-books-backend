@@ -20,6 +20,10 @@ public class BillService {
     public QueryResult getBills(String accessToken, String realmId, String type, Long referenceTimeEpoch) throws FMSException {
         DataService dateService = helper.getDataService(realmId, accessToken);
 
+        if (referenceTimeEpoch == 0 &&
+                (type.equalsIgnoreCase("modified") || type.equalsIgnoreCase("new")))
+            return new QueryResult();
+
         String sql = "select * from bill";
 
         String referenceTime = getDateTimeFromEpoch(referenceTimeEpoch);
